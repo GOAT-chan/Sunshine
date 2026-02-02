@@ -1,0 +1,30 @@
+on: [push]
+name: Build Docker image
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ["amd64", "arm64"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          name: goatchan_builder
+          platforms: linux/amd64,linux/arm64
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          tags: sunshine:latest
+          platforms: linux/${{matrix.arch}}
+          outputs: type=docker,dest=sunshine.tar
+      - name: Upload image
+        uses: actions/upload-artifact@v6.0.0
+        with:
+          name: Sunshine (${{matrix.arch}})
+          path: sunshine.tar
