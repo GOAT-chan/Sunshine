@@ -89,7 +89,7 @@ export async function chatInputRunRecentScoreSubcommand(
     }) as null | { osu_user_id: number };
 
     if (!row || !row.osu_user_id) {
-      throw new ExtendedError(`❓ Provided user didn't link their osu!sunrise account`);
+      throw new ExtendedError(`❓ Provided user didn't link their GOAT-chan account`);
     }
 
     recentScoreResponse = await getUserByIdScores({

@@ -169,7 +169,7 @@ export class EmbedPresetsUtility extends Utility {
         },
       ])
       .setFooter({
-        text: `${stats.gamemode} · osu!sunrise`,
+        text: `${stats.gamemode} · GOAT-chan`,
       });
 
     return userEmbed;
@@ -257,7 +257,7 @@ export class EmbedPresetsUtility extends Utility {
       .setThumbnail(beatmapBannerImage)
       .setURL(`https://${config.sunrise.uri}/beatmaps/${score.beatmap_id}`)
       .setFooter({
-        text: `${score.game_mode_extended} · played on osu!sunrise`,
+        text: `${score.game_mode_extended} · played on GOAT-chan`,
       })
       .setDescription(description);
 
@@ -314,7 +314,7 @@ export class EmbedPresetsUtility extends Utility {
       .setImage(beatmapBannerImage)
       .setURL(`https://${config.sunrise.uri}/beatmaps/${beatmap.id}`)
       .setFooter({
-        text: `${beatmap.mode} · osu!sunrise`,
+        text: `${beatmap.mode} · GOAT-chan`,
       })
       .setFields(
         {

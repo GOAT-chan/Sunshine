@@ -93,7 +93,7 @@ export async function chatInputRunScoresSubcommand(
     }) as null | { osu_user_id: number };
 
     if (!row || !row.osu_user_id) {
-      throw new ExtendedError(`❓ Provided user didn't link their osu!sunrise account`);
+      throw new ExtendedError(`❓ Provided user didn't link their GOAT-chan account`);
     }
 
     userId = row.osu_user_id;
@@ -204,7 +204,7 @@ function createHandleForScoresPagination(
       .setThumbnail(user.avatar_url ?? "")
       .setDescription(description)
       .setFooter({
-        text: `Page ${state.currentPage}/${state.totalPages} · submitted on osu!sunrise`,
+        text: `Page ${state.currentPage}/${state.totalPages} · submitted on GOAT-chan`,
       });
   };
 }

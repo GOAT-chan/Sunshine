@@ -9,7 +9,7 @@ import { getUserById, getUserSearch } from "../../lib/types/api";
 export function addLinkSubcommand(command: SlashCommandSubcommandBuilder) {
   return command
     .setName("link")
-    .setDescription("Link your osu!sunrise profile")
+    .setDescription("Link your GOAT-chan profile")
     .addStringOption(o =>
       o
         .setName("username")

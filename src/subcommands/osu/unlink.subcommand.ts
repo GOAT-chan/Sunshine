@@ -5,7 +5,7 @@ import type { OsuCommand } from "../../commands/osu.command";
 import { ExtendedError } from "../../lib/extended-error";
 
 export function addUnlinkSubcommand(command: SlashCommandSubcommandBuilder) {
-  return command.setName("unlink").setDescription("Unlink your osu!sunrise profile");
+  return command.setName("unlink").setDescription("Unlink your GOAT-chan profile");
 }
 
 export async function chatInputRunUnlinkSubcommand(
