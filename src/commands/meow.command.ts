@@ -6,6 +6,6 @@ export class MeowCommand extends Command {
   }
 
   public override chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-    return interaction.reply("meow! 😺");
+    return interaction.reply("Meow! 😺");
   }
 }

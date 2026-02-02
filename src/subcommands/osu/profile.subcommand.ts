@@ -8,12 +8,12 @@ import { GameMode, getUserByIdByMode, getUserSearch } from "../../lib/types/api"
 export function addProfileSubcommand(command: SlashCommandSubcommandBuilder) {
   return command
     .setName("profile")
-    .setDescription("Check user's profile")
-    .addStringOption(o => o.setName("username").setDescription("User's username"))
+    .setDescription("Check a user's profile.")
+    .addStringOption(o => o.setName("username").setDescription("Target username."))
     .addUserOption(o =>
-      o.setName("discord").setDescription("Show users profile if he linked any"),
+      o.setName("discord").setDescription("Target discord."),
     )
-    .addNumberOption(option => option.setName("id").setDescription("User's id"))
+    .addNumberOption(option => option.setName("id").setDescription("Target user id."))
     .addStringOption(option =>
       option
         .setName("gamemode")
@@ -34,6 +34,7 @@ export async function chatInputRunProfileSubcommand(
   await interaction.deferReply();
 
   let userIdOption = interaction.options.getNumber("id");
+  let userDefaultGamemode = GameMode.STANDARD;
   const userUsernameOption = interaction.options.getString("username");
   const userDiscordOption = interaction.options.getUser("discord");
 
@@ -52,16 +53,17 @@ export async function chatInputRunProfileSubcommand(
       throw new ExtendedError(
         userSearchResponse?.error?.detail
         || userSearchResponse?.error?.title
-        || "❓ I couldn't find user with such username",
+        || "❓ I couldn't find user with this username.",
       );
     }
 
     userIdOption = userSearchResponse.data[0]?.user_id ?? null;
+    userDefaultGamemode = userSearchResponse.data[0]?.default_gamemode ?? GameMode.STANDARD;
   }
 
   if (userIdOption && userResponse == null) {
     userResponse = await getUserByIdByMode({
-      path: { id: userIdOption, mode: gamemodeOption ?? GameMode.STANDARD },
+      path: { id: userIdOption, mode: gamemodeOption ?? userDefaultGamemode },
     });
   }
 
@@ -73,11 +75,11 @@ export async function chatInputRunProfileSubcommand(
     }) as null | { osu_user_id: number };
 
     if (!row || !row.osu_user_id) {
-      throw new ExtendedError(`❓ Provided user didn't link their GOAT-chan account`);
+      throw new ExtendedError(`❓ Provided user didn't link their GOAT-chan account.`);
     }
 
     userResponse = await getUserByIdByMode({
-      path: { id: row.osu_user_id, mode: gamemodeOption ?? GameMode.STANDARD },
+      path: { id: row.osu_user_id, mode: gamemodeOption ?? userDefaultGamemode },
     });
   }
 
