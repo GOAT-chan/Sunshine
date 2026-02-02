@@ -5,7 +5,7 @@ import type { OsuCommand } from "../../commands/osu.command";
 import { ExtendedError } from "../../lib/extended-error";
 
 export function addUnlinkSubcommand(command: SlashCommandSubcommandBuilder) {
-  return command.setName("unlink").setDescription("Unlink your GOAT-chan profile");
+  return command.setName("unlink").setDescription("Unlink your GOAT-chan account.");
 }
 
 export async function chatInputRunUnlinkSubcommand(
@@ -23,7 +23,7 @@ export async function chatInputRunUnlinkSubcommand(
   const { embedPresets } = this.container.utilities;
 
   if (!row || row["count(*)"] === 0) {
-    throw new ExtendedError(`❓ You don't have any linked account`);
+    throw new ExtendedError(`❓ You don't have any linked account!`);
   }
 
   const deleteConnection = db.prepare("DELETE FROM connections WHERE discord_user_id = $1");
@@ -33,6 +33,6 @@ export async function chatInputRunUnlinkSubcommand(
   });
 
   return await interaction.editReply({
-    embeds: [embedPresets.getSuccessEmbed(`I successfully unlinked your account!`)],
+    embeds: [embedPresets.getSuccessEmbed(`I've successfully unlinked your account!`)],
   });
 }

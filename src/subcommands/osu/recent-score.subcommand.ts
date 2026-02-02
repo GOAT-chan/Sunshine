@@ -21,15 +21,15 @@ export function addRecentScoreSubcommand(command: SlashCommandSubcommandBuilder)
     .setName("rs")
     .setDescription("Check users recent score")
     .addStringOption(o =>
-      o.setName("username").setDescription("User's username").setRequired(false),
+      o.setName("username").setDescription("Target username.").setRequired(false),
     )
     .addUserOption(o =>
-      o.setName("discord").setDescription("Show users profile if he linked any").setRequired(false),
+      o.setName("discord").setDescription("Target discord.").setRequired(false),
     )
     .addStringOption(o =>
       o
         .setName("gamemode")
-        .setDescription("Select gamemode")
+        .setDescription("Select gamemode.")
         .setRequired(false)
         .setChoices(
           Object.values(GameMode).map(mode => ({
@@ -46,6 +46,7 @@ export async function chatInputRunRecentScoreSubcommand(
 ) {
   await interaction.deferReply();
 
+  let userDefaultGamemode = GameMode.STANDARD;
   const userUsernameOption = interaction.options.getString("username");
   const userDiscordOption = interaction.options.getUser("discord");
 
@@ -68,12 +69,13 @@ export async function chatInputRunRecentScoreSubcommand(
       );
     }
 
+    userDefaultGamemode = userSearchResponse.data[0]?.default_gamemode ?? GameMode.STANDARD;
     recentScoreResponse = await getUserByIdScores({
       path: {
         id: userSearchResponse.data[0]!.user_id,
       },
       query: {
-        mode: gamemodeOption ?? GameMode.STANDARD,
+        mode: gamemodeOption ?? userDefaultGamemode,
         type: ScoreTableType.RECENT,
         page: 1,
         limit: 1,
@@ -97,7 +99,7 @@ export async function chatInputRunRecentScoreSubcommand(
         id: row.osu_user_id,
       },
       query: {
-        mode: gamemodeOption ?? GameMode.STANDARD,
+        mode: gamemodeOption ?? userDefaultGamemode,
         type: ScoreTableType.RECENT,
         page: 1,
         limit: 1,

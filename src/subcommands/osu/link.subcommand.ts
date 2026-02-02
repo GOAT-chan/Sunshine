@@ -9,17 +9,17 @@ import { getUserById, getUserSearch } from "../../lib/types/api";
 export function addLinkSubcommand(command: SlashCommandSubcommandBuilder) {
   return command
     .setName("link")
-    .setDescription("Link your GOAT-chan profile")
+    .setDescription("Link your GOAT-chan profile.")
     .addStringOption(o =>
       o
         .setName("username")
-        .setDescription("Your username on the server")
+        .setDescription("Your username on the server.")
         .setRequired(false),
     )
     .addStringOption(o =>
       o
         .setName("id")
-        .setDescription("Your account ID on the server")
+        .setDescription("Your account ID on the server.")
         .setRequired(false));
 }
 

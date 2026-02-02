@@ -23,12 +23,12 @@ import { getBeatmapStarRating } from "../../lib/utils/osu/star-rating.util";
 export function addScoresSubcommand(command: SlashCommandSubcommandBuilder) {
   return command
     .setName("scores")
-    .setDescription("Check user's scores")
+    .setDescription("Show user's scores.")
     .addStringOption(option =>
       option
         .setName("gamemode")
-        .setDescription("Select gamemode")
-        .setRequired(true)
+        .setDescription("Select gamemode.")
+        .setRequired(false)
         .setChoices(
           Object.values(GameMode).map(mode => ({
             name: mode.toString(),
@@ -39,7 +39,7 @@ export function addScoresSubcommand(command: SlashCommandSubcommandBuilder) {
     .addStringOption(option =>
       option
         .setName("type")
-        .setDescription("Select scores type")
+        .setDescription("Select score type.")
         .setRequired(true)
         .setChoices(
           Object.values(ScoreTableType).map(mode => ({
@@ -61,6 +61,7 @@ export async function chatInputRunScoresSubcommand(
 ) {
   await interaction.deferReply();
 
+  let userDefaultGamemode = GameMode.STANDARD;
   const userUsernameOption = interaction.options.getString("username");
   const userDiscordOption = interaction.options.getUser("discord");
 
@@ -82,6 +83,7 @@ export async function chatInputRunScoresSubcommand(
       );
     }
 
+    userDefaultGamemode = userSearchResponse.data[0]?.default_gamemode ?? GameMode.STANDARD;
     userId = userSearchResponse.data[0]!.user_id;
   }
 
@@ -108,7 +110,7 @@ export async function chatInputRunScoresSubcommand(
   const handlePagination = createHandleForScoresPagination.call(
     this,
     userId,
-    gamemodeOption,
+    gamemodeOption ?? userDefaultGamemode,
     scoresTypeOption,
   );
 
