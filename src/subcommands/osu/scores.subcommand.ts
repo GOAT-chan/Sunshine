@@ -26,18 +26,6 @@ export function addScoresSubcommand(command: SlashCommandSubcommandBuilder) {
     .setDescription("Show user's scores.")
     .addStringOption(option =>
       option
-        .setName("gamemode")
-        .setDescription("Select gamemode.")
-        .setRequired(false)
-        .setChoices(
-          Object.values(GameMode).map(mode => ({
-            name: mode.toString(),
-            value: mode.toString(),
-          })),
-        ),
-    )
-    .addStringOption(option =>
-      option
         .setName("type")
         .setDescription("Select score type.")
         .setRequired(true)
@@ -48,9 +36,20 @@ export function addScoresSubcommand(command: SlashCommandSubcommandBuilder) {
           })),
         ),
     )
+    .addStringOption(option =>
+      option
+        .setName("gamemode")
+        .setDescription("Select gamemode.")
+        .setChoices(
+          Object.values(GameMode).map(mode => ({
+            name: mode.toString(),
+            value: mode.toString(),
+          })),
+        ),
+    )
     .addStringOption(o => o.setName("username").setDescription("User's username"))
     .addUserOption(o =>
-      o.setName("discord").setDescription("Show users profile if he linked any"),
+      o.setName("discord").setDescription("Show profile of this user if linked"),
     )
     .addNumberOption(option => option.setName("id").setDescription("User's id"));
 }
